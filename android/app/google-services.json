@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "216770243309",
+    "firebase_url": "https://tiktube-5bfbf.firebaseio.com",
+    "project_id": "tiktube-5bfbf",
+    "storage_bucket": "tiktube-5bfbf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:216770243309:android:abc40b1f99dc7dedec3ae4",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "216770243309-l4nmm3q5tcb3ra88agg43nrl07s3kkng.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_app",
+            "certificate_hash": "5c755404dfd669b2adfc7359b5f7dc422f7f260e"
+          }
+        },
+        {
+          "client_id": "216770243309-0b1dqgrfm4n5mnih5gcr4089j9a3i5v3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDovCHzV_tW9VRIThCM3I2bnVXVogW_3hk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "216770243309-0b1dqgrfm4n5mnih5gcr4089j9a3i5v3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
