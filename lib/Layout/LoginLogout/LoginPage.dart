@@ -59,7 +59,7 @@ class _loginPage extends State<loginPage>
             ),
             SizedBox(height: 20,),
             Text(
-              "Chào mừng bạn",
+              "Welcome",
               style: GoogleFonts.merriweather(
                 fontWeight: FontWeight.bold,
                 fontSize: 35,
@@ -67,7 +67,7 @@ class _loginPage extends State<loginPage>
               ),
             ),
             Text(
-              "tới TikTube",
+              "to TikTube",
               style: GoogleFonts.merriweather(
                 fontWeight: FontWeight.bold,
                 fontSize: 35,
@@ -83,7 +83,7 @@ class _loginPage extends State<loginPage>
               height: 30,
             ),
             Text(
-              "Nơi lưu trữ & chia sẽ",
+              "Where to store & share",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 10,
@@ -91,7 +91,7 @@ class _loginPage extends State<loginPage>
               ),
             ),
             Text(
-              "những khoảng khắc thú vị của bạn",
+              "your interesting moments",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 10,

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_app/Bloc/Upload/UploadBloc.dart';
-import 'package:videos_player/model/control.model.dart';
-import 'package:videos_player/model/video.model.dart';
-import 'package:videos_player/videos_player.dart';
+import 'package:localstorage/localstorage.dart';
 
 class uploadData extends StatefulWidget {
   @override
@@ -15,6 +13,7 @@ class uploadData extends StatefulWidget {
 String urlMedia = "";
 
 class _uploadDataState extends State<uploadData> {
+
   Set<String> urls = Set();
   List<File> _selectedFiles = [];
   List<StorageUploadTask> _tasks = [];

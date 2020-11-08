@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Model/Video/Video.dart';
 import 'package:videos_player/model/control.model.dart';
 import 'package:videos_player/model/video.model.dart';
 import 'package:videos_player/videos_player.dart';
@@ -7,11 +9,24 @@ import 'package:videos_player/videos_player.dart';
 // import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
 
 class detailMedia extends StatefulWidget {
+  final Video detailsVideo;
+
+  const detailMedia({Key key, this.detailsVideo}) : super(key: key);
   @override
-  _detailMediaState createState() => _detailMediaState();
+  _detailMediaState createState() => _detailMediaState(detailsVideo);
 }
 
 class _detailMediaState extends State<detailMedia> {
+  final Video detailsVideo;
+
+  _detailMediaState(this.detailsVideo);
+
+  TextEditingController _comment = new TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    _comment.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Widget titleSection = Container(
@@ -25,18 +40,21 @@ class _detailMediaState extends State<detailMedia> {
                 Container(
                   child: ExpansionTile(
                     title: Text(
-                      'Title',
+                      detailsVideo.title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    children: [
-                      Text(
-                        'Decription',
-                        style: TextStyle(
-                          color: Colors.grey[500],
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          detailsVideo.decription,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: Colors.grey[500],
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -53,8 +71,8 @@ class _detailMediaState extends State<detailMedia> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildButtonColumn(color, Icons.favorite, 'Like'),
-          _buildButtonColumn(color, Icons.comment, 'Comment'),
+          _buildButtonColumn(color, Icons.favorite, '${detailsVideo.likeCount}'),
+          _buildButtonColumn(color, Icons.comment, '${detailsVideo.commentCount}'),
           _buildButtonColumn(color, Icons.share, 'Share'),
         ],
       ),
@@ -84,7 +102,7 @@ class _detailMediaState extends State<detailMedia> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Flutter layout demo',
+          'TikTube',
           style: TextStyle(color: Colors.blueGrey[800]),
         ),
         iconTheme: IconThemeData(color: Colors.black87),
@@ -96,7 +114,7 @@ class _detailMediaState extends State<detailMedia> {
             networkVideos: [
               new NetworkVideo(
                 videoUrl:
-                    "https://firebasestorage.googleapis.com/v0/b/tiktube-5bfbf.appspot.com/o/U001%2FVID_20201017_161340(0).mp4?alt=media&token=3a76fa93-ac99-4f22-9236-6dca8d671809",
+                    detailsVideo.urlShare,
                 videoControl: new NetworkVideoControl(autoPlay: true),
               )
             ],
@@ -106,6 +124,18 @@ class _detailMediaState extends State<detailMedia> {
           SizedBox(height: 5,),
           comment,
         ],
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 2, 10, 0),
+        child: TextField(
+          controller: _comment,
+          decoration: InputDecoration(
+              hintText: 'Write something to comment',
+              suffixIcon: Icon(
+                Icons.send, color: Colors.black87,
+              )
+          ),
+        ),
       ),
     );
   }

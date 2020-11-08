@@ -1,6 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Layout/HomePage/Widget_Home.dart';
+import 'package:flutter_app/Layout/Profile/User_Profile.dart';
+import 'package:flutter_app/Layout/Search/Search.dart';
 import 'package:flutter_app/Layout/UploadPage/UploadData.dart';
 
 class homePage extends StatefulWidget {
@@ -9,11 +11,15 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> {
-  final uploadData _uploadData =  new uploadData();
-  final homeWidget _home =  new homeWidget();
-  //final Profile _profile =  new Profile();
+  static int _pageSize = 3;
+  static int _pageNum = 1;
 
-  Widget _showContent = new homeWidget();
+  final uploadData _uploadData =  new uploadData();
+  final homeWidget _home = new homeWidget(pageSize: _pageSize, pageNum: _pageNum, );
+  final UserProfile _profile =  new UserProfile();
+  final searchPage _search =  new searchPage();
+
+  Widget _showContent = new homeWidget(pageSize: _pageSize, pageNum: _pageNum,);
 
   Widget choiceWidgetToshow(int index){
     switch(index){
@@ -25,10 +31,14 @@ class _homePageState extends State<homePage> {
         return _uploadData;
         break;
       }
-      // case 3:{
-      //   return _proFile
-      //   break;
-      // }
+      case 2:{
+        return _search;
+        break;
+      }
+      case 3:{
+        return _profile;
+        break;
+      }
       default:break;
     }
   }
@@ -49,15 +59,15 @@ class _homePageState extends State<homePage> {
           "TikTube",
           style: TextStyle(color: Colors.blueGrey[800]),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Icon(
-              Icons.search,
-              color: Colors.blueGrey[800],
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 10),
+        //     child: Icon(
+        //       Icons.search,
+        //       color: Colors.blueGrey[800],
+        //     ),
+        //   ),
+        // ],
       ),
       body: Container(
         child: _showContent,
@@ -70,6 +80,7 @@ class _homePageState extends State<homePage> {
         items: <Widget>[
           Icon(Icons.home, size: 30),
           Icon(Icons.add, size: 30),
+          Icon(Icons.search, size: 30),
           Icon(Icons.person, size: 30),
         ],
         onTap: (index) {

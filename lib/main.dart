@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Layout/HomePage/HomePage.dart';
-import 'package:flutter_app/Layout/LoginPage/LoginPage.dart';
-import 'package:flutter_app/Layout/UploadPage/UploadData.dart';
+
+import 'Layout/LoginLogout/LoginPage.dart';
 
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: loginPage(),
+      home: homePage(),
     );
   }
 }

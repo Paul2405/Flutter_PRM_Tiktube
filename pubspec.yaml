@@ -33,6 +33,13 @@ dependencies:
   firebase_core: ^0.5.0+1
   curved_navigation_bar: ^0.3.4
   percent_indicator: ^2.1.8
+  localstorage: ^3.0.3+6
+  rxdart: ^0.24.1
+  jiffy: ^3.0.1
+  pull_to_refresh: ^1.6.2
+  keyboard_attachable: ^1.0.3
+
+
 
 
   # The following adds the Cupertino Icons font to your application.
