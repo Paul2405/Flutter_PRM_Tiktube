@@ -24,9 +24,10 @@ class _loginPage extends State<loginPage>
       ),
       lowerBound: 0,
       upperBound: 0.1,
-    )..addListener(() {
-      setState(() {});
-    });
+    )
+      ..addListener(() {
+        setState(() {});
+      });
     super.initState();
   }
 
@@ -112,12 +113,13 @@ class _loginPage extends State<loginPage>
         onPressed: () {
           SignInWithGG().then((result) {
             if (result != null) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return homePage();
-                  },
-                ),
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return homePage();
+                    },
+                  ),
+                      (Route<dynamic> route) => false,
               );
             }
           });

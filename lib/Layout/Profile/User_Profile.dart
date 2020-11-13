@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Bloc/Login/LoginBloc.dart';
+import 'package:flutter_app/Layout/LoginLogout/LoginPage.dart';
 import 'package:flutter_app/Layout/LoginLogout/Logout.dart';
 import 'package:flutter_app/Model/User/User_Model.dart';
 import 'package:jiffy/jiffy.dart';
@@ -12,12 +15,17 @@ class UserProfile extends StatefulWidget {
 class _UserProfile extends State<UserProfile> {
   final LocalStorage storage = LocalStorage('user');
 
+
   @override
   void initState() {
     super.initState();
   }
 
   static const double _imageHeight = 256.0;
+  TextEditingController _fullname ;
+  TextEditingController _phone ;
+  TextEditingController _birthday ;
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +40,9 @@ class _UserProfile extends State<UserProfile> {
             }
             if (snapshot.hasData) {
               var user = User.fromJson(storage.getItem('user'));
+              _fullname = new TextEditingController(text: user.fullname);
+              _phone = new TextEditingController(text: user.phone);
+              _birthday = new TextEditingController(text: user.birthday);
               List<String> ListRowIfo = [
                 checkNull(user.fullname),
                 checkNull(user.phone),
@@ -49,7 +60,8 @@ class _UserProfile extends State<UserProfile> {
                   children: <Widget>[
                     _buildTimeline(),
                     _buildImage(),
-                    _buildProfileRow(checkNull(user.fullname), checkNull(user.email),
+                    _buildProfileRow(
+                        checkNull(user.fullname), checkNull(user.email),
                         checkNull(user.avatarUrl)),
                     _buildBottomPart(ListRowIfo, ListRowTitle),
                   ],
@@ -67,31 +79,33 @@ class _UserProfile extends State<UserProfile> {
   Widget _buildLoadingWidget() {
     return Center(
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 25.0,
-          width: 25.0,
-          child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(Colors.blueAccent),
-            strokeWidth: 4.0,
-          ),
-        )
-      ],
-    ));
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 25.0,
+              width: 25.0,
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Colors.blueAccent),
+                strokeWidth: 4.0,
+              ),
+            )
+          ],
+        ));
   }
 
   Widget _buildErrorWidget(String error) {
     return Center(
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Error occured: $error"),
-      ],
-    ));
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Error occured: $error"),
+          ],
+        ));
   }
 
-  Widget _buildImage() => ClipPath(
+  Widget _buildImage() =>
+      ClipPath(
         clipper: DialogonalClipper(),
         child: Container(
           width: double.infinity,
@@ -119,7 +133,7 @@ class _UserProfile extends State<UserProfile> {
             Expanded(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -127,7 +141,7 @@ class _UserProfile extends State<UserProfile> {
                     Text(
                       userName,
                       style: TextStyle(
-                          color: Colors.blueGrey[800],
+                          color: Colors.white,
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold),
                     ),
@@ -136,7 +150,7 @@ class _UserProfile extends State<UserProfile> {
                       child: Text(
                         email,
                         style: TextStyle(
-                            color: Colors.blueGrey[700],
+                            color: Colors.white,
                             fontSize: 12.0,
                             fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
@@ -151,7 +165,8 @@ class _UserProfile extends State<UserProfile> {
         ),
       );
 
-  Widget _buildBottomPart(List<String> userInfo, List<String> title) => Padding(
+  Widget _buildBottomPart(List<String> userInfo, List<String> title) =>
+      Padding(
         padding: const EdgeInsets.only(top: _imageHeight),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,32 +178,86 @@ class _UserProfile extends State<UserProfile> {
         ),
       );
 
-  Widget _buildTaskList(List<String> userInfo, List<String> title) => Expanded(
-      child: AnimatedList(
-          initialItemCount: 4,
-          itemBuilder: (context, index, animation) => TaskRow(
-                title: title[index],
-                userInfo: userInfo[index],
-                animation: animation,
-              )));
+  Widget _buildTaskList(List<String> userInfo, List<String> title) =>
+      Expanded(
+          child: AnimatedList(
+              initialItemCount: 4,
+              itemBuilder: (context, index, animation) =>
+                  TaskRow(
+                    title: title[index],
+                    userInfo: userInfo[index],
+                    animation: animation,
+                  )));
 
-  Widget _buildMyTaskHeader() => Padding(
+  Widget _buildMyTaskHeader() =>
+      Padding(
         padding: const EdgeInsets.only(left: 64.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Thông Tin',
-              style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w400),
+            Row(
+              children: [
+                Text(
+                  'Profile',
+                  style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w400),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 3),
+                  child: IconButton(
+                    icon: Icon(Icons.edit, size: 15,),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Edit profile"),
+                              content: Container(
+                                height: 200,
+                                child: Column(
+                                  children: [
+                                     TextField(
+                                       controller: _fullname,
+                                       decoration: InputDecoration(
+                                         labelText: "fullname"
+                                       ),
+                                     ),
+                                    TextField(
+                                      controller: _phone,
+                                      decoration: InputDecoration(
+                                          labelText: "phone"
+                                      ),
+                                    ),
+                                    TextField(
+                                      controller: _birthday,
+                                      decoration: InputDecoration(
+                                          labelText: "birthday"
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(onPressed: (){Navigator.pop(context, false);}, child: Text("Cancel".toUpperCase())),
+                                TextButton(onPressed: (){}, child: Text("Update".toUpperCase()))
+                              ],
+                            );
+                          });
+                    },
+                  ),
+                ),
+
+              ],
             ),
+
             SizedBox(
-              height: 5,
+              height: 10,
             ),
           ],
         ),
       );
 
-  Widget _buildTimeline() => Positioned(
+  Widget _buildTimeline() =>
+      Positioned(
         top: 0.0,
         bottom: 0.0,
         left: 32.0,
@@ -254,11 +323,11 @@ class TaskRow extends StatelessWidget {
 
 class DialogonalClipper extends CustomClipper<Path> {
   @override
-  Path getClip(Size size) => Path()
-    ..lineTo(0.0, size.height - 60.0)
-    ..lineTo(size.width, size.height)
-    ..lineTo(size.width, 0.0)
-    ..close();
+  Path getClip(Size size) =>
+      Path()
+        ..lineTo(0.0, size.height - 60.0)..lineTo(
+          size.width, size.height)..lineTo(size.width, 0.0)
+        ..close();
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;

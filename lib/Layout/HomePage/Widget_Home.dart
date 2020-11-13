@@ -29,6 +29,7 @@ class _homeWidgetState extends State<homeWidget> {
   @override
   void initState() {
     super.initState();
+    videoBloc.resetListVideos();
     _getMoreVideo();
     _refreshController = RefreshController();
   }
@@ -143,6 +144,7 @@ class _homeWidgetState extends State<homeWidget> {
                         ),
                         child: InkWell(
                           onTap: () => {
+                            print(listVideo[index].id),
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

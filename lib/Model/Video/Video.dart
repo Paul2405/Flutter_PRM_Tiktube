@@ -40,7 +40,6 @@ class Video {
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
     "title": title,
     "decription": decription,
     "userId": userId,
@@ -48,6 +47,6 @@ class Video {
     "likeCount": likeCount,
     "commentCount": commentCount,
     "status": status,
-    "user": user,
   };
 }
+

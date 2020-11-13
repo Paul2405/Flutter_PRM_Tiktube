@@ -57,6 +57,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0-nullsafety.3"
+  connectivity:
+    dependency: transitive
+    description:
+      name: connectivity
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  connectivity_for_web:
+    dependency: transitive
+    description:
+      name: connectivity_for_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1+4"
+  connectivity_macos:
+    dependency: transitive
+    description:
+      name: connectivity_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0+7"
+  connectivity_platform_interface:
+    dependency: transitive
+    description:
+      name: connectivity_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   convert:
     dependency: transitive
     description:
@@ -85,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.4"
+  diacritic:
+    dependency: transitive
+    description:
+      name: diacritic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   fake_async:
     dependency: transitive
     description:
@@ -188,6 +223,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.11"
+  flutter_sequence_animation:
+    dependency: transitive
+    description:
+      name: flutter_sequence_animation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -198,6 +240,41 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  future_progress_dialog:
+    dependency: "direct main"
+    description:
+      name: future_progress_dialog
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
+  get_core:
+    dependency: transitive
+    description:
+      name: get_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.13.0"
+  get_instance:
+    dependency: transitive
+    description:
+      name: get_instance
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.13.0"
+  get_rx:
+    dependency: transitive
+    description:
+      name: get_rx
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.13.0"
+  get_state_manager:
+    dependency: transitive
+    description:
+      name: get_state_manager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.13.0"
   google_fonts:
     dependency: "direct main"
     description:
@@ -394,11 +471,25 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.24.1"
+  search_app_bar_page:
+    dependency: "direct main"
+    description:
+      name: search_app_bar_page
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.1"
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.99"
+  snack:
+    dependency: "direct main"
+    description:
+      name: snack
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   source_span:
     dependency: transitive
     description:
@@ -427,6 +518,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0-nullsafety.1"
+  sweetalert:
+    dependency: "direct main"
+    description:
+      name: sweetalert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   term_glyph:
     dependency: transitive
     description:

@@ -25,10 +25,10 @@ class _CusLogoutBtnState extends State<CusLogoutBtn> {
             Navigator.push(context, route);
           },
           child: Text(
-            "Đăng xuất".toUpperCase(),
+            "Logout".toUpperCase(),
             style: TextStyle(
               color: Colors.white,
-              fontSize: 17,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
           ),
