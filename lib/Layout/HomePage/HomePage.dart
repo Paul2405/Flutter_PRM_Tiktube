@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Bloc/VideoBloc/VideoBloc.dart';
+import 'package:flutter_app/Layout/Detail/List_Video_User.dart';
 import 'package:flutter_app/Layout/HomePage/Generate_List_Video.dart';
 import 'package:flutter_app/Layout/HomePage/Widget_Home.dart';
 import 'package:flutter_app/Layout/Profile/User_Profile.dart';
@@ -20,6 +21,10 @@ class _homePageState extends State<homePage> {
 
   final uploadData _uploadData = new uploadData();
   final homeWidget _home = new homeWidget(
+    pageSize: _pageSize,
+    pageNum: _pageNum,
+  );
+  final VideoOfUser _videoOfUser = new VideoOfUser(
     pageSize: _pageSize,
     pageNum: _pageNum,
   );
@@ -43,13 +48,14 @@ class _homePageState extends State<homePage> {
           return _uploadData;
           break;
         }
-      // case 2:{
-      //   return _search;
-      //   break;
-      // }
       case 2:
         {
           return _profile;
+          break;
+        }
+      case 3:
+        {
+          return _videoOfUser;
           break;
         }
       default:
@@ -150,6 +156,7 @@ class _homePageState extends State<homePage> {
           Icon(Icons.home, size: 30),
           Icon(Icons.add, size: 30),
           Icon(Icons.person, size: 30),
+          Icon(Icons.my_library_music, size: 30),
         ],
         onTap: (index) {
           setState(() {

@@ -5,6 +5,7 @@ import 'package:flutter_app/Model/User/User_Model.dart';
 import 'package:flutter_app/Model/Video/Comment.dart';
 import 'package:flutter_app/Model/Video/Like.dart';
 import 'package:flutter_app/Model/Video/Video.dart';
+import 'package:flutter_app/Repository/RepositoryDelete.dart';
 import 'package:flutter_app/Repository/RepositoryPost.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:localstorage/localstorage.dart';
@@ -65,7 +66,7 @@ class _detailMediaState extends State<detailMedia> {
       setState(() {
         detailsVideo = video;
         isLike = isLiked;
-        print("____________$isLiked");
+        print("____________xxx$isLiked");
       });
     }
   }
@@ -134,7 +135,16 @@ class _detailMediaState extends State<detailMedia> {
           InkWell(
             onTap: () async {
               if (isLike) {
-                return;
+                int temp =  await videoBloc.getLikeID(detailsVideo.id, User.fromJson(storage.getItem('user')).id);
+                if(temp != -1){
+                  bool check = false;
+                  await deleteRepo.deleteLike(temp).then((value) => check = value);
+                  if(check){
+                    setState(() {
+                      getVideo();
+                    });
+                  }
+                }
               } else {
                 await postRepo.postLike(new Like(
                     userId: User.fromJson(storage.getItem('user')).id,

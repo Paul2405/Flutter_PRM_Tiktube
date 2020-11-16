@@ -194,6 +194,7 @@ class _uploadDataState extends State<uploadData> {
   Future getFuture(String url) {
     return Future(() async {
       await await postRepo.postVideo(new Video(
+        id: 0,
         title: _title.text,
         decription: _decription.text,
         userId: User.fromJson(_storage.getItem("user")).id,

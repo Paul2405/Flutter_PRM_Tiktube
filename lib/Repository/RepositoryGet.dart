@@ -14,9 +14,22 @@ class Repository {
   var getCommentUrl = "$mainUrl/api/Videos";
   var getVideoLikeUrl = "$mainUrl/api/Videos";
   var getVideoUrl = "$mainUrl/api/Videos";
+  var getVideoByUserIDURL = "$mainUrl/api/Users";
 
+  Future<List<Video>> getVideoByUserID(int userId, int pageSize, int pageNum) async{
+    final response =  await http.get(getVideoByUserIDURL+ "/$userId/Video?pageSize=$pageSize&pageNum=$pageNum");
+    print("__________xxx$getVideoByUserIDURL/$userId/Video?pageSize=$pageSize&pageNum=$pageNum");
+    if(response.statusCode == 200){
+      return json
+          .decode(response.body)
+          .map<Video>((item) => Video.fromJson(item))
+          .toList();
+    }else{
+      throw Exception("fail to get video by userID");
+    }
+  }
   Future<User> getUserByID(int id) async {
-    final response = await http.get(postUser + '$id');
+    final response = await http.get(getUser + '$id');
     if (response.statusCode == 200) {
       return User.fromJson(json.decode(response.body));
     } else {
@@ -91,3 +104,4 @@ class Repository {
     }
   }
 }
+final repository = Repository();

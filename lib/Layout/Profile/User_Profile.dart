@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Bloc/Login/LoginBloc.dart';
 import 'package:flutter_app/Layout/LoginLogout/LoginPage.dart';
 import 'package:flutter_app/Layout/LoginLogout/Logout.dart';
 import 'package:flutter_app/Model/User/User_Model.dart';
+import 'package:flutter_app/Repository/RepositoryGet.dart';
+import 'package:flutter_app/Repository/RepositoryPut.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:localstorage/localstorage.dart';
 
@@ -15,16 +16,19 @@ class UserProfile extends StatefulWidget {
 class _UserProfile extends State<UserProfile> {
   final LocalStorage storage = LocalStorage('user');
 
-
   @override
   void initState() {
     super.initState();
   }
 
   static const double _imageHeight = 256.0;
-  TextEditingController _fullname ;
-  TextEditingController _phone ;
-  TextEditingController _birthday ;
+  TextEditingController _fullname;
+
+  TextEditingController _phone;
+
+  TextEditingController _birthday;
+
+  var user;
 
 
   @override
@@ -39,10 +43,10 @@ class _UserProfile extends State<UserProfile> {
               );
             }
             if (snapshot.hasData) {
-              var user = User.fromJson(storage.getItem('user'));
-              _fullname = new TextEditingController(text: user.fullname);
-              _phone = new TextEditingController(text: user.phone);
-              _birthday = new TextEditingController(text: user.birthday);
+              user = User.fromJson(storage.getItem('user'));
+              _fullname = new TextEditingController(text: checkNull(user.fullname).trim());
+              _phone = new TextEditingController(text: checkNull(user.phone).trim());
+              _birthday = new TextEditingController(text: checkNull(user.birthday).trim());
               List<String> ListRowIfo = [
                 checkNull(user.fullname),
                 checkNull(user.phone),
@@ -60,9 +64,8 @@ class _UserProfile extends State<UserProfile> {
                   children: <Widget>[
                     _buildTimeline(),
                     _buildImage(),
-                    _buildProfileRow(
-                        checkNull(user.fullname), checkNull(user.email),
-                        checkNull(user.avatarUrl)),
+                    _buildProfileRow(checkNull(user.fullname),
+                        checkNull(user.email), checkNull(user.avatarUrl)),
                     _buildBottomPart(ListRowIfo, ListRowTitle),
                   ],
                 ),
@@ -79,33 +82,31 @@ class _UserProfile extends State<UserProfile> {
   Widget _buildLoadingWidget() {
     return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 25.0,
-              width: 25.0,
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                    Colors.blueAccent),
-                strokeWidth: 4.0,
-              ),
-            )
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 25.0,
+          width: 25.0,
+          child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+            strokeWidth: 4.0,
+          ),
+        )
+      ],
+    ));
   }
 
   Widget _buildErrorWidget(String error) {
     return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Error occured: $error"),
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Error occured: $error"),
+      ],
+    ));
   }
 
-  Widget _buildImage() =>
-      ClipPath(
+  Widget _buildImage() => ClipPath(
         clipper: DialogonalClipper(),
         child: Container(
           width: double.infinity,
@@ -133,7 +134,7 @@ class _UserProfile extends State<UserProfile> {
             Expanded(
               child: Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -165,8 +166,7 @@ class _UserProfile extends State<UserProfile> {
         ),
       );
 
-  Widget _buildBottomPart(List<String> userInfo, List<String> title) =>
-      Padding(
+  Widget _buildBottomPart(List<String> userInfo, List<String> title) => Padding(
         padding: const EdgeInsets.only(top: _imageHeight),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,19 +178,16 @@ class _UserProfile extends State<UserProfile> {
         ),
       );
 
-  Widget _buildTaskList(List<String> userInfo, List<String> title) =>
-      Expanded(
-          child: AnimatedList(
-              initialItemCount: 4,
-              itemBuilder: (context, index, animation) =>
-                  TaskRow(
-                    title: title[index],
-                    userInfo: userInfo[index],
-                    animation: animation,
-                  )));
+  Widget _buildTaskList(List<String> userInfo, List<String> title) => Expanded(
+      child: AnimatedList(
+          initialItemCount: 4,
+          itemBuilder: (context, index, animation) => TaskRow(
+                title: title[index],
+                userInfo: userInfo[index],
+                animation: animation,
+              )));
 
-  Widget _buildMyTaskHeader() =>
-      Padding(
+  Widget _buildMyTaskHeader() => Padding(
         padding: const EdgeInsets.only(left: 64.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +201,10 @@ class _UserProfile extends State<UserProfile> {
                 Padding(
                   padding: const EdgeInsets.only(left: 3),
                   child: IconButton(
-                    icon: Icon(Icons.edit, size: 15,),
+                    icon: Icon(
+                      Icons.edit,
+                      size: 15,
+                    ),
                     onPressed: () {
                       showDialog(
                           context: context,
@@ -215,40 +215,73 @@ class _UserProfile extends State<UserProfile> {
                                 height: 200,
                                 child: Column(
                                   children: [
-                                     TextField(
-                                       controller: _fullname,
-                                       decoration: InputDecoration(
-                                         labelText: "fullname"
-                                       ),
-                                     ),
+                                    TextField(
+                                      controller: _fullname,
+                                      decoration: InputDecoration(
+                                          labelText: "fullname"),
+                                    ),
                                     TextField(
                                       controller: _phone,
-                                      decoration: InputDecoration(
-                                          labelText: "phone"
-                                      ),
+                                      decoration:
+                                          InputDecoration(labelText: "phone"),
                                     ),
                                     TextField(
                                       controller: _birthday,
                                       decoration: InputDecoration(
-                                          labelText: "birthday"
-                                      ),
+                                          labelText: "birthday"),
                                     )
                                   ],
                                 ),
                               ),
                               actions: [
-                                TextButton(onPressed: (){Navigator.pop(context, false);}, child: Text("Cancel".toUpperCase())),
-                                TextButton(onPressed: (){}, child: Text("Update".toUpperCase()))
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context, false);
+                                    },
+                                    child: Text("Cancel".toUpperCase())),
+                                TextButton(
+                                    onPressed: () async {
+                                      int status = await putRepo.updateUserByID(
+                                          new User(
+                                              id: User.fromJson(
+                                                      storage.getItem('user'))
+                                                  .id,
+                                              fullname: _fullname.text.trim(),
+                                              phone: _phone.text.trim(),
+                                              birthday: _birthday.text.trim(),
+                                            avatarUrl: User.fromJson(
+                                                storage.getItem('user'))
+                                                .avatarUrl.trim(),
+                                            creationDate: User.fromJson(
+                                                storage.getItem('user'))
+                                                .creationDate,
+                                            email: User.fromJson(
+                                                storage.getItem('user'))
+                                                .email.trim(),
+                                            video:  User.fromJson(
+                                                storage.getItem('user'))
+                                                .video
+                                          ));
+                                      if (status == 204) {
+                                        _birthday.clear();
+                                        _fullname.clear();
+                                        _phone.clear();
+                                        User temp = await repository.getUserByID(user.id);
+                                        setState(() {
+                                          storage.setItem('user', temp);
+                                        });
+                                        Navigator.pop(context, true);
+                                      } else {}
+                                    },
+                                    child: Text("Update".toUpperCase()))
                               ],
                             );
                           });
                     },
                   ),
                 ),
-
               ],
             ),
-
             SizedBox(
               height: 10,
             ),
@@ -256,8 +289,7 @@ class _UserProfile extends State<UserProfile> {
         ),
       );
 
-  Widget _buildTimeline() =>
-      Positioned(
+  Widget _buildTimeline() => Positioned(
         top: 0.0,
         bottom: 0.0,
         left: 32.0,
@@ -323,11 +355,11 @@ class TaskRow extends StatelessWidget {
 
 class DialogonalClipper extends CustomClipper<Path> {
   @override
-  Path getClip(Size size) =>
-      Path()
-        ..lineTo(0.0, size.height - 60.0)..lineTo(
-          size.width, size.height)..lineTo(size.width, 0.0)
-        ..close();
+  Path getClip(Size size) => Path()
+    ..lineTo(0.0, size.height - 60.0)
+    ..lineTo(size.width, size.height)
+    ..lineTo(size.width, 0.0)
+    ..close();
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
